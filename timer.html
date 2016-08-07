@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Tiny Timer</title>
+		<meta charset="utf-8" />
+		<script type="text/javascript">
+			function increment(){
+				console.log("increment");
+				timers.forEach(function(current, index, array) {
+					current.time++;
+					current.element.textContent = formatTime(current.time);
+				})
+			}
+			var timers = [];
+			
+			function formatTime(time) {
+				var hours = Math.floor(time / 3600)
+				var output = (hours < 10 ? "0" : "") + hours + ":";
+				var minutes = Math.floor((time % 3600) / 60)
+				output += (minutes < 10 ? "0" : "") + minutes + ":";
+				var seconds = time % 60
+				output += (seconds < 10 ? "0" : "") + seconds;
+				return output;
+			}
+			
+			function loadTimers(){
+				var timerElements = document.getElementsByClassName("time");
+				
+				Array.from(timerElements).forEach(function(current, index, array) {
+					timers[index] = {}
+					timers[index].element = current;
+					timers[index].time = 0;
+				})
+				
+			}
+			
+			function startTimer(id){
+				window.setInterval(increment, 1000)
+			}
+		</script>
+	</head>
+	<body onload="loadTimers()">
+		<table id="timer_container">
+			<tr id="timer1top">
+				<td><div class="time" id="t1time">00:00:00</div></td>
+				<td><button id="t1start" onclick="startTimer(1)">Start</button></td>
+				<td><button id="t1start">Stop</button></td>
+				<td><button id="t1start">Reset</button></td>
+			</tr>
+			<tr id="timer2bottom">
+				<td>0:00:00</td>
+			</tr>
+		</table>
+	</body>
+</html>
