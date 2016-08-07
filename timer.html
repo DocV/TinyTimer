@@ -5,10 +5,11 @@
 		<meta charset="utf-8" />
 		<script type="text/javascript">
 			function increment(){
-				console.log("increment");
 				timers.forEach(function(current, index, array) {
-					current.time++;
-					current.element.textContent = formatTime(current.time);
+					if (current.enabled){
+						current.time++;
+						current.element.textContent = formatTime(current.time);
+					}
 				})
 			}
 			var timers = [];
@@ -30,24 +31,35 @@
 					timers[index] = {}
 					timers[index].element = current;
 					timers[index].time = 0;
+					timers[index].enabled = false;
 				})
 				
+				window.setInterval(increment, 1000)
 			}
 			
 			function startTimer(id){
-				window.setInterval(increment, 1000)
+				timers[id].enabled = true;
+			}
+			
+			function stopTimer(id){
+				timers[id].enabled = false;
+			}
+			
+			function resetTimer(id){
+				timers[id].time = 0;
+				timers[id].element.textContent = formatTime(0);
 			}
 		</script>
 	</head>
 	<body onload="loadTimers()">
 		<table id="timer_container">
-			<tr id="timer1top">
-				<td><div class="time" id="t1time">00:00:00</div></td>
-				<td><button id="t1start" onclick="startTimer(1)">Start</button></td>
-				<td><button id="t1start">Stop</button></td>
-				<td><button id="t1start">Reset</button></td>
+			<tr id="timer0top">
+				<td><div class="time" id="t0time">00:00:00</div></td>
+				<td><button id="t0start" onclick="startTimer(0)">Start</button></td>
+				<td><button id="t0stop" onclick="stopTimer(0)">Stop</button></td>
+				<td><button id="t0reset" onclick="resetTimer(0)">Reset</button></td>
 			</tr>
-			<tr id="timer2bottom">
+			<tr id="timer0bottom">
 				<td>0:00:00</td>
 			</tr>
 		</table>
