@@ -5,6 +5,9 @@
 		<meta charset="utf-8" />
 		<link rel="shortcut icon" type="image/png" href="favicon.png" />
 		<script type="text/javascript">
+			var timers = [];
+			var notificationAudio = new Audio("Notification.wav");
+		
 			function increment(){
 				timers.forEach(function(current, index, array) {
 					if (current.enabled){
@@ -16,7 +19,6 @@
 					}
 				})
 			}
-			var timers = [];
 			
 			function formatTime(time) {
 				var hours = Math.floor(time / 3600)
@@ -51,6 +53,7 @@
 				var timer = timers[id];
 				if (timer.time > timer.alarmTime){
 					timer.alarm.style.color = "red";
+					notificationAudio.play();
 					timer.alarmFired = true;
 				}
 			}
