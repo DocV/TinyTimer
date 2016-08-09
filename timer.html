@@ -9,7 +9,10 @@
 				timers.forEach(function(current, index, array) {
 					if (current.enabled){
 						current.time++;
-						current.element.textContent = formatTime(current.time);
+						current.clock.textContent = formatTime(current.time);
+						if (current.alarmEnabled && !current.alarmFired){
+							checkAlarm(index);
+						}						
 					}
 				})
 			}
@@ -26,16 +29,30 @@
 			}
 			
 			function loadTimers(){
-				var timerElements = document.getElementsByClassName("time");
+				var timerElements = document.getElementsByClassName("timer");
 				
 				Array.from(timerElements).forEach(function(current, index, array) {
 					timers[index] = {}
-					timers[index].element = current;
+					timers[index].container = current;
 					timers[index].time = 0;
+					timers[index].alarmTime = 0;
 					timers[index].enabled = false;
+					timers[index].clock = current.getElementsByClassName("clock")[0];
+					timers[index].alarm = current.getElementsByClassName("alarm")[0];
+					timers[index].alarmEnabled = false;
+					timers[index].alarmFired = false;
 				})
 				
 				window.setInterval(increment, 1000)
+			}
+			
+			function checkAlarm(id){
+				console.log("checking alarm");
+				var timer = timers[id];
+				if (timer.time > timer.alarmTime){
+					timer.alarm.style.color = "red";
+					timer.alarmFired = true;
+				}
 			}
 			
 			function startTimer(id){
@@ -48,21 +65,60 @@
 			
 			function resetTimer(id){
 				timers[id].time = 0;
-				timers[id].element.textContent = formatTime(0);
+				timers[id].clock.textContent = formatTime(0);
+				timers[id].alarm.style.color = "black";
+				timers[id].alarmFired = false;
+			}
+			
+			function adjustAlarm(id, amount) {
+				timers[id].alarmTime += amount;
+				if (timers[id].alarmTime < 0){
+					timers[id].alarmTime = 0;
+				}
+				timers[id].alarm.textContent = formatTime(timers[id].alarmTime);
+				timers[id].alarm.style.color = "black";
+				timers[id].alarmFired = false;
+			}
+			
+			function toggleAlarm(event, id){
+				timers[id].alarmEnabled = !timers[id].alarmEnabled;
+				if (timers[id].alarmEnabled){
+					event.target.textContent = "Alarm is on";
+				}
+				else {
+					event.target.textContent = "Alarm is off";
+				}
 			}
 		</script>
 	</head>
 	<body onload="loadTimers()">
 		<table id="timer_container">
-			<tr id="timer0top">
-				<td><div class="time" id="t0time">00:00:00</div></td>
-				<td><button id="t0start" onclick="startTimer(0)">Start</button></td>
-				<td><button id="t0stop" onclick="stopTimer(0)">Stop</button></td>
-				<td><button id="t0reset" onclick="resetTimer(0)">Reset</button></td>
-			</tr>
-			<tr id="timer0bottom">
-				<td>0:00:00</td>
-			</tr>
+			<tbody class="timer" id="timer0">
+				<tr class="timertop" id="timer0top">
+					<td><div class="clock" id="t0time">00:00:00</div></td>
+					<td><button id="t0start" onclick="startTimer(0)">Start</button></td>
+					<td><button id="t0stop" onclick="stopTimer(0)">Stop</button></td>
+					<td><button id="t0reset" onclick="resetTimer(0)">Reset</button></td>
+				</tr>
+				<tr class="timerbottom" id="timer0bottom">
+					<td><div class="alarm" id="t0alarm">00:00:00</div></td>
+					<td>
+						<button id="t0h+" onclick="adjustAlarm(0, 3600)">H+</button>
+						<button id="t0h-" onclick="adjustAlarm(0, -3600)")>H-</button>
+					</td>
+					<td>
+						<button id="t0m+" onclick="adjustAlarm(0, 60)">M+</button>
+						<button id="t0m-" onclick="adjustAlarm(0, -60)">M-</button>
+					</td>
+					<td>
+						<button id="t0s+" onclick="adjustAlarm(0, 1)">S+</button>
+						<button id="t0s-" onclick="adjustAlarm(0, -1)">S-</button>
+					</td>
+					<td>
+						<button id="t0alarmtoggle" onclick="toggleAlarm(event, 0)">Alarm is off</button>
+					</td>
+				</tr>
+			</tbody>
 		</table>
 	</body>
 </html>
