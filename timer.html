@@ -46,15 +46,18 @@
 				})
 				
 				window.setInterval(increment, 1000)
+				document.onfocus = resetTitle;
 			}
 			
 			function checkAlarm(id){
-				console.log("checking alarm");
 				var timer = timers[id];
-				if (timer.time > timer.alarmTime){
+				if (timer.time >= timer.alarmTime){
 					timer.alarm.style.color = "red";
 					notificationAudio.play();
 					timer.alarmFired = true;
+					if (!document.hasFocus()){
+						document.title = "(!)Tiny Timer";
+					}
 				}
 			}
 			
@@ -91,6 +94,10 @@
 				else {
 					event.target.textContent = "Alarm is off";
 				}
+			}
+			
+			function resetTitle(){
+				document.title = "Tiny Timer";
 			}
 		</script>
 	</head>
