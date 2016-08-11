@@ -6,9 +6,11 @@
 		<link rel="shortcut icon" type="image/png" href="favicon.png" />
 		<script type="text/javascript" src="timer.js">
 		</script>
+		<script type="text/javascript" src="generator.js">
+		</script>
 	</head>
-	<body onload="loadTimers()">
-		<table id="timer_container">
+	<body onload="createTimer(1); loadTimers()">
+		<table id="timerContainer">
 			<tbody class="timer" id="timer0">
 				<tr class="timertop" id="timer0top">
 					<td><div class="clock" id="t0time">00:00:00</div></td>
