@@ -1,5 +1,15 @@
 var timers = [];
 var notificationAudio = new Audio("Notification.wav");
+var TimerData = function(container){
+	this.container = container;
+	this.time = 0;
+	this.alarTime = 0;
+	this.enabled = false;
+	this.alarmEnabled = false;
+	this.alarmFired = false;
+	this.clock = container.getElementsByClassName("clock")[0];
+	this.alarm = container.getElementsByClassName("alarm")[0];
+}	
 
 function increment(){
 	timers.forEach(function(current, index, array) {
@@ -27,15 +37,7 @@ function loadTimers(){
 	var timerElements = document.getElementsByClassName("timer");
 	
 	Array.from(timerElements).forEach(function(current, index, array) {
-		timers[index] = {}
-		timers[index].container = current;
-		timers[index].time = 0;
-		timers[index].alarmTime = 0;
-		timers[index].enabled = false;
-		timers[index].clock = current.getElementsByClassName("clock")[0];
-		timers[index].alarm = current.getElementsByClassName("alarm")[0];
-		timers[index].alarmEnabled = false;
-		timers[index].alarmFired = false;
+		timers[index] = new TimerData(current);
 	})
 	
 	window.setInterval(increment, 1000)
