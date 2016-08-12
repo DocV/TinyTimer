@@ -6,6 +6,7 @@ function generateTimer(id){
 	timer.id = "timer" + id;
 	container.appendChild(timer);
 	
+	generateDivider(timer);	
 	generateTop(timer, id);
 	generateBottom(timer, id);
 	
@@ -83,4 +84,14 @@ function createButton(container, id, func, txt){
 	btn.setAttribute("onclick", func);
 	btn.textContent = txt;
 	container.appendChild(btn);
+}
+
+function generateDivider(container){
+	var tr = document.createElement("tr");
+	container.appendChild(tr);
+	var td = document.createElement("td");
+	td.setAttribute("colspan", "5");
+	tr.appendChild(td);
+	var hr = document.createElement("hr");
+	td.appendChild(hr);
 }
