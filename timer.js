@@ -3,7 +3,7 @@ var notificationAudio = new Audio("Notification.wav");
 var TimerData = function(container){
 	this.container = container;
 	this.time = 0;
-	this.alarTime = 0;
+	this.alarmTime = 0;
 	this.enabled = false;
 	this.alarmEnabled = false;
 	this.alarmFired = false;
@@ -42,6 +42,11 @@ function loadTimers(){
 	
 	window.setInterval(increment, 1000)
 	document.onfocus = resetTitle;
+}
+
+function addTimer(){
+	var container = generateTimer(timers.length);
+	timers[timers.length] = new TimerData(container);
 }
 
 function checkAlarm(id){

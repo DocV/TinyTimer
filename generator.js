@@ -1,4 +1,4 @@
-function createTimer(id){
+function generateTimer(id){
 	var container = document.getElementById("timerContainer");
 	
 	var timer = document.createElement("tbody");

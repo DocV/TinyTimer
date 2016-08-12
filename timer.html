@@ -9,34 +9,15 @@
 		<script type="text/javascript" src="generator.js">
 		</script>
 	</head>
-	<body onload="createTimer(1); loadTimers()">
+	<body onload="generateTimer(0); loadTimers()">
 		<table id="timerContainer">
-			<tbody class="timer" id="timer0">
-				<tr class="timertop" id="timer0top">
-					<td><div class="clock" id="t0time">00:00:00</div></td>
-					<td><button id="t0start" onclick="startTimer(0)">Start</button></td>
-					<td><button id="t0stop" onclick="stopTimer(0)">Stop</button></td>
-					<td><button id="t0reset" onclick="resetTimer(0)">Reset</button></td>
-				</tr>
-				<tr class="timerbottom" id="timer0bottom">
-					<td><div class="alarm" id="t0alarm">00:00:00</div></td>
+			<tbody id="header">
+				<tr>
 					<td>
-						<button id="t0h+" onclick="adjustAlarm(0, 3600)">H+</button>
-						<button id="t0h-" onclick="adjustAlarm(0, -3600)")>H-</button>
-					</td>
-					<td>
-						<button id="t0m+" onclick="adjustAlarm(0, 60)">M+</button>
-						<button id="t0m-" onclick="adjustAlarm(0, -60)">M-</button>
-					</td>
-					<td>
-						<button id="t0s+" onclick="adjustAlarm(0, 1)">S+</button>
-						<button id="t0s-" onclick="adjustAlarm(0, -1)">S-</button>
-					</td>
-					<td>
-						<button id="t0alarmtoggle" onclick="toggleAlarm(event, 0)">Alarm is OFF</button>
+						<button id="addbtn" onclick="addTimer()">New Timer</button>
 					</td>
 				</tr>
-			</tbody>
+			</tbody>			
 		</table>
 	</body>
 </html>
