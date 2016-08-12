@@ -82,10 +82,10 @@ function adjustAlarm(id, amount) {
 function toggleAlarm(event, id){
 	timers[id].alarmEnabled = !timers[id].alarmEnabled;
 	if (timers[id].alarmEnabled){
-		event.target.textContent = "Alarm is on";
+		event.target.textContent = "Alarm is ON";
 	}
 	else {
-		event.target.textContent = "Alarm is off";
+		event.target.textContent = "Alarm is OFF";
 	}
 }
 
