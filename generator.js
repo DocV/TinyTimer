@@ -37,6 +37,10 @@ function generateTop(container, id){
 	temp = document.createElement("td");
 	timertop.appendChild(temp);
 	createButton(temp, "t" + id + "reset", "resetTimer(" + id + ")", "Reset");
+	
+	temp = document.createElement("td");
+	timertop.appendChild(temp);
+	createButton(temp, "t" + id + "delete", "removeTimer(" + id + ")", "Delete");
 }
 
 function generateBottom(container, id){

@@ -13,7 +13,7 @@ var TimerData = function(container){
 
 function increment(){
 	timers.forEach(function(current, index, array) {
-		if (current.enabled){
+		if (current != null && current.enabled){
 			current.time++;
 			current.clock.textContent = formatTime(current.time);
 			if (current.alarmEnabled && !current.alarmFired){
@@ -45,8 +45,22 @@ function loadTimers(){
 }
 
 function addTimer(){
-	var container = generateTimer(timers.length);
-	timers[timers.length] = new TimerData(container);
+	var index = timers.length;
+	for (i = 0; i < timers.length; i++){
+		if (timers[i] == null){
+			index = i;
+			break;
+		}
+	}
+	var container = generateTimer(index);
+	timers[index] = new TimerData(container);
+}
+
+function removeTimer(id){
+	timers[id] = null;
+	var container = document.getElementById("timerContainer");
+	var timer = document.getElementById("timer" + id);
+	container.removeChild(timer);
 }
 
 function checkAlarm(id){
