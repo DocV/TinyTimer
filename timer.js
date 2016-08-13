@@ -79,8 +79,24 @@ function startTimer(id){
 	timers[id].enabled = true;
 }
 
+function startAll(){
+	timers.forEach(function(current, index, array){
+		if (current != null){
+			startTimer(index);
+		}
+	});
+}
+
 function stopTimer(id){
 	timers[id].enabled = false;
+}
+
+function stopAll(){
+	timers.forEach(function(current, index, array){
+		if (current != null){
+			stopTimer(index);
+		}
+	});
 }
 
 function resetTimer(id){
@@ -88,6 +104,14 @@ function resetTimer(id){
 	timers[id].clock.textContent = formatTime(0);
 	timers[id].alarm.style.color = "black";
 	timers[id].alarmFired = false;
+}
+
+function resetAll(){
+	timers.forEach(function(current, index, array){
+		if (current != null){
+			resetTimer(index);
+		}
+	});
 }
 
 function adjustAlarm(id, amount) {
