@@ -21,6 +21,8 @@ var TimerData = function(container){
 	this.clock = container.getElementsByClassName("clock")[0];
 	/*This timer's alarm time display element*/
 	this.alarm = container.getElementsByClassName("alarm")[0];
+	/*This timer's name input*/
+	this.name = container.getElementsByClassName("timerName")[0];
 }	
 
 /*Tick all timers*/
@@ -98,9 +100,9 @@ function checkAlarm(id){
 		//play notification sound
 		notificationAudio.play();
 		timer.alarmFired = true;
-		//change the page title if the user is looking at another tab/window
+		//prepend timer name to page title if the user is looking at another tab/window
 		if (!document.hasFocus()){
-			document.title = "(!)Tiny Timer";
+			document.title = "(" + timers[id].name.value + ") " + document.title;
 		}
 	}
 }

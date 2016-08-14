@@ -52,6 +52,17 @@ function generateTimer(id){
 		timertop.appendChild(temp);
 		createButton(temp, "t" + id + "reset", "resetTimer(" + id + ")", "Reset");
 		
+		//timer name field
+		temp = document.createElement("td");
+		timertop.appendChild(temp);
+		var textfield = document.createElement("input");
+		textfield.setAttribute("type", "text");
+		textfield.setAttribute("size", "12");
+		textfield.id = "t" + id + "name";
+		textfield.className = "timerName";
+		textfield.setAttribute("value", "Timer " + (id + 1));
+		temp.appendChild(textfield);
+		
 		//delete timer button
 		temp = document.createElement("td");
 		timertop.appendChild(temp);
@@ -123,7 +134,7 @@ function generateTimer(id){
 		container.appendChild(tr);
 		var td = document.createElement("td");
 		//Make the line span the entire table
-		td.setAttribute("colspan", "5");
+		td.setAttribute("colspan", "6");
 		tr.appendChild(td);
 		var hr = document.createElement("hr");
 		td.appendChild(hr);
