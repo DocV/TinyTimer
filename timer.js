@@ -54,8 +54,11 @@ function formatTime(time) {
 
 /*Sets up the initial state of the timer app*/
 function initializeTimers(){
-	//create first timer
-	addTimer();
+	//Load timers if available, else create a default timer
+	if (!loadTimers()){
+		//create first timer
+		addTimer();
+	}
 	
 	//set tick function to fire every second
 	window.setInterval(increment, 1000)
@@ -188,4 +191,63 @@ function toggleAlarm(event, id){
 /*Reset the page title*/
 function resetTitle(){
 	document.title = "Tiny Timer";
+}
+
+/*Saves current timers into browser's local storage*/
+function saveTimers(){
+	//storage not available
+	if (typeof(Storage) == undefined) {
+		alert("Your browser does not support local storage");
+		return;
+	}
+	
+	var store = window.localStorage;
+	//store only timers that actually exist
+	store.setItem("timercount", timers.filter(function (timer) {return timer != null; }).length);
+	
+	timers.forEach(function (current, index, array){
+		if (current != null) {
+			//serialize timer data
+			store.setItem("time" + index, current.time)
+			store.setItem("alarm" + index, current.alarmTime)
+			store.setItem("enabled" + index, current.enabled)
+			store.setItem("alarmEnabled" + index, current.alarmEnabled)
+			store.setItem("name" + index, current.name.value)
+		}
+	});
+	alert("Your timers have been saved");
+}
+
+/*Loads saved timers from browser's local storage
+Should currently only be called during initialization, otherwise may result in weird bahavior
+Returns true if timers were loaded, false if there was no timer data*/
+function loadTimers(){
+	//abort if no saved data
+	if (typeof(Storage) == undefined || !(window.localStorage.getItem("timercount") > 0)) {
+		return false;
+	}
+	
+	var store = window.localStorage;
+	var timercount = store.getItem("timercount");
+	
+	for (i = 0; i < timercount; i++){
+		//create timer and initialize it with saved data
+		addTimer();
+		timers[i].time = parseInt(store.getItem("time" + i));
+		timers[i].clock.textContent = formatTime(timers[i].time);
+		timers[i].alarmTime = parseInt(store.getItem("alarm" + i));
+		timers[i].alarm.textContent = formatTime(timers[i].alarmTime);
+		timers[i].enabled = (store.getItem("enabled" + i) == "true")? true : false;
+		timers[i].alarmEnabled = (store.getItem("alarmEnabled" + i) == "true")? true : false;
+		document.getElementById("t" + i + "alarmtoggle").textContent = (timers[i].alarmEnabled ? "Alarm is ON" : "Alarm is OFF");
+		timers[i].name.value = store.getItem("name" + i)
+	}
+	//Tell caller that the timers were loaded successfully
+	return true;
+}
+
+/*Removes saved data from local storage*/
+function clearStorage(){
+	window.localStorage.clear();
+	alert("Saved timers deleted");
 }
